@@ -58,6 +58,7 @@ def handle_update(event, context):
 def create_studio_domain(config):
     vpc_id = config['VPC']
     subnet_ids = config['SubnetIds']
+    sec_groups = config['DomainSettings']
     default_user_settings = config['DefaultUserSettings']
     domain_name = config['DomainName']
 
@@ -66,7 +67,8 @@ def create_studio_domain(config):
         AuthMode='IAM',
         DefaultUserSettings=default_user_settings,
         SubnetIds=subnet_ids.split(','),
-        VpcId=vpc_id
+        VpcId=vpc_id,
+        DomainSettings=sec_groups
     )
 
     domain_id = response['DomainArn'].split('/')[-1]

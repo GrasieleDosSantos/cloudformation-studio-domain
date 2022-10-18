@@ -4,10 +4,10 @@ Parameters:
   S3Bucket:
     Type: String
     Description: "S3 Bucket"
-    Default: "test-studio-cf"
+    Default: "sagemaker-sa-east-1-629848764789"
   UserProfileName:
     Type: String
-    Description: "user profile name "
+    Description: "user profile name"
     Default: "DefaultUser"
   VPCId:
     Type: String
@@ -17,6 +17,10 @@ Parameters:
     Type: String
     Description: Subnet Ids
     Default: "subnet-xxxxx"
+  SecGroups:
+    Type: String
+    Description: security groups
+    Default: "sg-0b1fddddcc3509280"  
 
 Resources:
   LambdaExecutionRole:
@@ -128,10 +132,15 @@ Resources:
     Type: Custom::StudioDomain
     Properties:
       ServiceToken: !GetAtt StudioDomainFunction.Arn
+      AppNetworkAccessType: VpcOnly
       VPC: !Ref VPCId
       SubnetIds: !Ref SubnetIds
-      DomainName: "MyDomainName"
+      DomainSettings:
+        SecurityGroupIds: !Ref SecGroups
+      DomainName: "DS-SM-test-domain"
+      AppSecurityGroupManagement: Customer
       DefaultUserSettings:
+        SecurityGroups: !Ref SecGroups
         ExecutionRole: !GetAtt SageMakerExecutionRole.Arn
 
   UserProfile:
