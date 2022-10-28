@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: CloudFormation Templates for provisioning sage maker studio and domain
+Description: CloudFormation Templates for provisioning sagemaker studio and domain
 Parameters:
   S3Bucket:
     Type: String
@@ -20,7 +20,7 @@ Parameters:
   SecGroups:
     Type: String
     Description: security groups
-    Default: "sg-0b1fddddcc3509280"  
+    Default: "sg-0b1fddddcc3509280" 
 
 Resources:
   LambdaExecutionRole:
@@ -140,7 +140,7 @@ Resources:
       DomainName: "DS-SM-test-domain"
       AppSecurityGroupManagement: Customer
       DefaultUserSettings:
-        SecurityGroups: !Ref SecGroups
+        #SecurityGroups: !Ref SecGroups
         ExecutionRole: !GetAtt SageMakerExecutionRole.Arn
 
   UserProfile:
